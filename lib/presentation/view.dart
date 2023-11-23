@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, avoid_print
 
 import 'package:dav_smart_wastebin_app/presentation/controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -64,7 +65,7 @@ class _SmartWasteBinPageViewState extends State<SmartWasteBinPageView> {
         init: SmartWasteBinController(),
         builder: (context) {
           return SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -123,7 +124,7 @@ class _SmartWasteBinPageViewState extends State<SmartWasteBinPageView> {
                 SizedBox(height: size.height * 0.03),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
+                    horizontal: 5,
                     vertical: 18,
                   ),
                   width: size.width,
@@ -133,168 +134,177 @@ class _SmartWasteBinPageViewState extends State<SmartWasteBinPageView> {
                   ),
                   child: Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 18),
-                        child: Text(
-                          'Controls',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black54),
+                      const Text(
+                        'Controls',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black54,
                         ),
                       ),
+                      const SizedBox(height: 30),
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  bottom: 10, top: controller.open ? 12 : 12),
-                              height: 210,
-                              decoration: const BoxDecoration(
-                                color: Color.fromRGBO(24, 160, 221, 0.06),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                              ),
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 15),
-                                  controller.open
-                                      ? const Image(
-                                          image:
-                                              AssetImage("assets/bin_open.png"),
-                                          height: 110,
-                                          width: 100,
-                                          color: Colors.black87,
-                                        )
-                                      : const Image(
-                                          image: AssetImage(
-                                              "assets/bin-closed.png"),
-                                          height: 110,
-                                          width: 100,
-                                          color: Colors.black87,
-                                        ),
-                                  const Expanded(child: SizedBox()),
-                                  Text(
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                    bottom: 10, top: controller.open ? 12 : 12),
+                                height: 210,
+                                width: size.width * 0.4,
+                                decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(24, 160, 221, 0.06),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
+                                ),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 15),
                                     controller.open
-                                        ? ' Bin is Open'
-                                        : 'Bin is Closed',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: controller.open
-                                          ? Colors.red[800]
-                                          : Colors.black,
+                                        ? const Icon(
+                                            Icons.clean_hands_outlined,
+                                            size: 80,
+                                            color: Colors.black87,
+                                          )
+                                        : const Icon(
+                                            CupertinoIcons.bin_xmark,
+                                            size: 120,
+                                            color: Colors.black87,
+                                          ),
+
+                                    // ? const Image(
+                                    //     image: AssetImage(
+                                    //         "assets/bin_open.png"),
+                                    //     height: 110,
+                                    //     width: 100,
+                                    //     color: Colors.black87,
+                                    //   )
+                                    // : const Image(
+                                    //     image: AssetImage(
+                                    //         "assets/bin-closed.png"),
+                                    //     height: 110,
+                                    //     width: 100,
+                                    //     color: Colors.black87,
+                                    //   ),
+                                    const Expanded(child: SizedBox()),
+                                    Text(
+                                      controller.open
+                                          ? ' Bin is Open'
+                                          : 'Bin is Closed',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: controller.open
+                                            ? Colors.red[800]
+                                            : Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
+                              const SizedBox(height: 30),
+                              TextButton(
+                                onPressed: () {
+                                  print('Custom Button pressed');
+                                  controller
+                                      .mqttPublish(controller.open ? "C" : "O");
+                                },
+                                style: TextButton.styleFrom(
+                                  backgroundColor: controller.open
+                                      ? Colors.amber[900]
+                                      : Colors.blue[400],
+                                  fixedSize: Size(size.width / 2.5, 50),
+                                  padding: EdgeInsets.zero,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                child: Text(
+                                  controller.open ? "Close" : "Open",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(width: 15),
-                          Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              height: 210,
-                              decoration: const BoxDecoration(
-                                color: Color.fromRGBO(64, 190, 121, 0.05),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                              ),
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 15),
-                                  controller.locked
-                                      ? const Image(
-                                          image: AssetImage(
-                                            "assets/lock-closed.png",
-                                          ),
-                                          height: 130,
-                                          width: 80,
-                                          color: Colors.black87,
-                                        )
-                                      : const Image(
-                                          image: AssetImage(
-                                            "assets/padlock_open.png",
-                                          ),
-                                          height: 150,
-                                          width: 100,
-                                          color: Colors.black87,
-                                        ),
-                                  const Expanded(child: SizedBox()),
-                                  Text(
+                          Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                height: 210,
+                                decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(64, 190, 121, 0.05),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
+                                ),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 15),
                                     controller.locked
-                                        ? 'Bin is Locked'
-                                        : 'Bin is Not Locked',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: controller.locked
-                                          ? Colors.red
-                                          : Colors.black,
+                                        ? const Icon(
+                                            CupertinoIcons.lock_fill,
+                                            size: 80,
+                                            color: Colors.black87,
+                                          )
+                                        : const Icon(
+                                            CupertinoIcons.lock_open,
+                                            size: 120,
+                                            color: Colors.black87,
+                                          ),
+                                    const Expanded(child: SizedBox()),
+                                    Text(
+                                      controller.locked
+                                          ? 'Bin is Locked'
+                                          : 'Bin is Not Locked',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: controller.locked
+                                            ? Colors.red
+                                            : Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
+                              const SizedBox(height: 30),
+                              TextButton(
+                                onPressed: () {
+                                  print('Custom Button pressed');
+                                  controller.mqttPublish(
+                                      controller.locked ? "U" : "L");
+                                },
+                                style: TextButton.styleFrom(
+                                  backgroundColor: controller.locked
+                                      ? Colors.red
+                                      : Colors.green[400],
+                                  fixedSize: Size(size.width / 2.5, 50),
+                                  padding: EdgeInsets.zero,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                child: Text(
+                                  controller.locked ? "Unlock" : "Lock",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ],
                   ),
-                ),
-                SizedBox(height: size.height * 0.04),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        print('Custom Button pressed');
-                        controller.mqttPublish(controller.open ? "C" : "O");
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor: controller.open
-                            ? Colors.amber[900]
-                            : Colors.blue[400],
-                        fixedSize: Size(size.width / 2.5, 50),
-                        padding: EdgeInsets.zero,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                      child: Text(
-                        controller.open ? "Close" : "Open",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    //
-                    TextButton(
-                      onPressed: () {
-                        print('Custom Button pressed');
-                        controller.mqttPublish(controller.locked ? "U" : "L");
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor:
-                            controller.locked ? Colors.red : Colors.green[400],
-                        fixedSize: Size(size.width / 2.5, 50),
-                        padding: EdgeInsets.zero,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                      child: Text(
-                        controller.locked ? "Unlock" : "Lock",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
