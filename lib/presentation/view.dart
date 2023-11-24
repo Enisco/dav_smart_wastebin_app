@@ -165,29 +165,14 @@ class _SmartWasteBinPageViewState extends State<SmartWasteBinPageView> {
                                     controller.open
                                         ? const Icon(
                                             Icons.clean_hands_outlined,
-                                            size: 80,
+                                            size: 120,
                                             color: Colors.black87,
                                           )
                                         : const Icon(
                                             CupertinoIcons.bin_xmark,
                                             size: 120,
-                                            color: Colors.black87,
+                                            color: Colors.black54,
                                           ),
-
-                                    // ? const Image(
-                                    //     image: AssetImage(
-                                    //         "assets/bin_open.png"),
-                                    //     height: 110,
-                                    //     width: 100,
-                                    //     color: Colors.black87,
-                                    //   )
-                                    // : const Image(
-                                    //     image: AssetImage(
-                                    //         "assets/bin-closed.png"),
-                                    //     height: 110,
-                                    //     width: 100,
-                                    //     color: Colors.black87,
-                                    //   ),
                                     const Expanded(child: SizedBox()),
                                     Text(
                                       controller.open
@@ -249,8 +234,8 @@ class _SmartWasteBinPageViewState extends State<SmartWasteBinPageView> {
                                     controller.locked
                                         ? const Icon(
                                             CupertinoIcons.lock_fill,
-                                            size: 80,
-                                            color: Colors.black87,
+                                            size: 120,
+                                            color: Colors.black54,
                                           )
                                         : const Icon(
                                             CupertinoIcons.lock_open,
